@@ -1,11 +1,13 @@
 package net.alexandroid.servicepermisssionbroadcastfirststeps;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -56,11 +58,26 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, PERMISSION)) {
             // Show an explanation to the user.
             // After the user sees the explanation, try again to request the permission.
+            showExplainingRationaleDialog();
         } else {
             // No explanation needed, we can request the permission.
             ActivityCompat.requestPermissions(this, new String[]{PERMISSION}, PERMISSIONS_REQUEST_CODE);
             // PERMISSIONS_REQUEST_CODE is an app-defined int constant.
             // The callback method gets the result of the request.
         }
+    }
+
+    private void showExplainingRationaleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialog_title);
+        builder.setMessage(R.string.dialog_message);
+        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{PERMISSION}, PERMISSIONS_REQUEST_CODE);
+            }
+        });
+        builder.create().show();
     }
 }
