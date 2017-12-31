@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ServicePermisssionBroadcastFirstSteps</string>
     <string name="action_settings">Settings</string>
+    <string name="dialog_title">Permission needed</string>
+    <string name="dialog_message">To be able downloading requested file the app need to be granted to access your files</string>
+    <string name="dialog_ok">OK</string>
 </resources>
