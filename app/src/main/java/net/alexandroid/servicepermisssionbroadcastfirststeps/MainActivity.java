@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final int PERMISSIONS_REQUEST_CODE = 1;
+    public static final String URL = "http://www.sample-videos.com/video/mp4/720/big_buck_bunny_720p_20mb.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startDownloadService() {
         Log.d("TAG", "startDownloadService");
+        DownloadService.startService(this, URL);
     }
 
     private void requestPermission() {
