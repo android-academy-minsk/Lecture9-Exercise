@@ -25,6 +25,12 @@
 
         <service android:name=".DownloadService"/>
 
+        <receiver android:name=".CompleteReceiver">
+            <intent-filter>
+                <action android:name="net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
