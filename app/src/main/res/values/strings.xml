@@ -6,4 +6,6 @@
     <string name="dialog_ok">OK</string>
     <string name="notification_title">Downloading....</string>
     <string name="notification_message">In progress</string>
+    <string name="channel_name">Default channel</string>
+    <string name="channel_description">It is a channel for default notifications</string>
 </resources>
