@@ -14,6 +14,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.Locale;
+
 public class DownloadService extends Service {
 
     public static final String URL = "URL";
@@ -42,8 +44,9 @@ public class DownloadService extends Service {
     private void startDownloadThread(String url) {
         new DownloadThread(url, new DownloadThread.DownloadCallBack() {
             @Override
-            public void onProgressUpdate(int percent) {
-                Log.d("TAG", "DownloadService, DownloadThread, onProgressUpdate: " + percent + "%");
+            public void onProgressUpdate(int progress) {
+                Log.d("TAG", "DownloadService, DownloadThread, onProgressUpdate: " + progress + "%");
+                updateNotification(progress);
             }
 
             @Override
@@ -63,17 +66,29 @@ public class DownloadService extends Service {
     private void startForeground() {
         createNotificationChannel();
 
+        Notification notification = createNotification(0);
+
+        startForeground(ONGOING_NOTIFICATION_ID, notification);
+    }
+
+    private Notification createNotification(int progress) {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
-                .setContentTitle(getText(R.string.notification_title))
+        return new NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(String.format(Locale.getDefault(), "Downloading... %d%%", progress))
                 .setContentText(getText(R.string.notification_message))
                 .setSmallIcon(R.drawable.ic_stat_download)
                 .setContentIntent(pendingIntent)
                 .build();
+    }
 
-        startForeground(ONGOING_NOTIFICATION_ID, notification);
+    private void updateNotification(int progress) {
+        Notification notification = createNotification(progress);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify(ONGOING_NOTIFICATION_ID, notification);
+        }
     }
 
     private void createNotificationChannel() {
