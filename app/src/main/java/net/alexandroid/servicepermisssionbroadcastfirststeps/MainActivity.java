@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private void startDownloadService() {
         Log.d("TAG", "startDownloadService");
         DownloadService.startService(this, URL);
+        onBackPressed();
     }
 
     private void requestPermission() {
