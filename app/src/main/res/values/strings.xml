@@ -8,4 +8,5 @@
     <string name="notification_message">In progress</string>
     <string name="channel_name">Default channel</string>
     <string name="channel_description">It is a channel for default notifications</string>
+    <string name="main_image">Main image</string>
 </resources>

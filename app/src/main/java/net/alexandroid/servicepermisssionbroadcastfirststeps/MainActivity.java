@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,10 +39,21 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         setFab();
 
+        checkForIntentExtras();
+    }
+
+    private void checkForIntentExtras() {
         String filePath = getIntent().getStringExtra(DownloadService.FILE_PATH);
         if (filePath != null) {
             Log.d("TAG", "MainActivity # onCreate, filePath: " + filePath);
+            showImage(filePath);
         }
+    }
+
+    private void showImage(String filePath) {
+        ImageView imageView = findViewById(R.id.mainImage);
+        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+        imageView.setImageBitmap(bitmap);
     }
 
     private void setFab() {
