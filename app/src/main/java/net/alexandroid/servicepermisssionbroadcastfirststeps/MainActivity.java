@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final int PERMISSIONS_REQUEST_CODE = 1;
-    public static final String URL = "http://www.sample-videos.com/img/Sample-jpg-image-500kb.jpg";
+    public static final String URL = "http://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

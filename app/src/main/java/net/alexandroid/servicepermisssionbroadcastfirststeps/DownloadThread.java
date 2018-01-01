@@ -20,6 +20,8 @@ public class DownloadThread extends Thread {
 
     private final String mUrl;
     private final DownloadCallBack mDownloadCallBack;
+    private int progress = 0;
+    private long mLastUpdateTime;
 
     public DownloadThread(String url, DownloadCallBack downloadCallBack) {
         mUrl = url;
@@ -58,17 +60,12 @@ public class DownloadThread extends Thread {
             // Output stream (Saving file)
             fos = new FileOutputStream(file.getPath());
 
-            int progress = 0;
             int next;
             byte[] data = new byte[1024];
             while ((next = inputStream.read(data)) != -1) {
                 fos.write(data, 0, next);
 
-                int count = ((int) fos.getChannel().size()) * 100 / fileLength;
-                if (count > progress) {
-                    progress = count;
-                    mDownloadCallBack.onProgressUpdate(progress);
-                }
+                updateProgress(fos, fileLength);
             }
 
             mDownloadCallBack.onDownloadFinished(file.getPath());
@@ -93,6 +90,17 @@ public class DownloadThread extends Thread {
 
             if (connection != null) {
                 connection.disconnect();
+            }
+        }
+    }
+
+    private void updateProgress(FileOutputStream fos, int fileLength) throws IOException {
+        if (mLastUpdateTime == 0 || System.currentTimeMillis() > mLastUpdateTime + 500) {
+            int count = ((int) fos.getChannel().size()) * 100 / fileLength;
+            if (count > progress) {
+                progress = count;
+                mLastUpdateTime = System.currentTimeMillis();
+                mDownloadCallBack.onProgressUpdate(progress);
             }
         }
     }
