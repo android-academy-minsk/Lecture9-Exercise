@@ -21,6 +21,7 @@ public class DownloadService extends Service {
     public static final String URL = "URL";
     public static final int ONGOING_NOTIFICATION_ID = 987;
     public static final String CHANNEL_DEFAULT_IMPORTANCE = "Channel";
+    public static final String FILE_PATH = "FILE_PATH";
 
     public static void startService(Activity activity, String url) {
         Intent intent = new Intent(activity, DownloadService.class);
@@ -52,7 +53,7 @@ public class DownloadService extends Service {
             @Override
             public void onDownloadFinished(String filePath) {
                 Log.d("TAG", "DownloadService, DownloadThread, onDownloadFinished: " + filePath);
-                sendBroadcastMsgDownloadComplete();
+                sendBroadcastMsgDownloadComplete(filePath);
                 stopSelf();
             }
 
@@ -118,9 +119,10 @@ public class DownloadService extends Service {
         }
     }
 
-    private void sendBroadcastMsgDownloadComplete() {
+    private void sendBroadcastMsgDownloadComplete(String filePath) {
         Intent intent = new Intent();
         intent.setAction("net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE");
+        intent.putExtra(FILE_PATH, filePath);
         sendBroadcast(intent);
     }
 
