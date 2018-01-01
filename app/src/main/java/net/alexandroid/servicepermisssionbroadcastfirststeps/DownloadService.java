@@ -34,7 +34,30 @@ public class DownloadService extends Service {
         String url = intent.getStringExtra(URL);
         Log.d("TAG", "DownloadService # URL: " + url);
 
+        startDownloadThread(url);
+
         return START_STICKY;
+    }
+
+    private void startDownloadThread(String url) {
+        new DownloadThread(url, new DownloadThread.DownloadCallBack() {
+            @Override
+            public void onProgressUpdate(int percent) {
+                Log.d("TAG", "DownloadService, DownloadThread, onProgressUpdate: " + percent + "%");
+            }
+
+            @Override
+            public void onDownloadFinished(String filePath) {
+                Log.d("TAG", "DownloadService, DownloadThread, onDownloadFinished: " + filePath);
+                stopSelf();
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e("TAG", "DownloadService, DownloadThread, Error: " + error);
+                stopSelf();
+            }
+        }).start();
     }
 
     private void startForeground() {
