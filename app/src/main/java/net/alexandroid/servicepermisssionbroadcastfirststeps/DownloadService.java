@@ -27,22 +27,21 @@ public class DownloadService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(Intent intent, int flags, final int startId) {
         Log.d("TAG", "DownloadService # onStartCommand");
         startForeground();
 
         String url = intent.getStringExtra(URL);
         Log.d("TAG", "DownloadService # URL: " + url);
 
-        //stopSelf();
         return START_STICKY;
     }
 
     private void startForeground() {
+        createNotificationChannel();
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-        createNotificationChannel();
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
                 .setContentTitle(getText(R.string.notification_title))
