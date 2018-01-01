@@ -52,6 +52,7 @@ public class DownloadService extends Service {
             @Override
             public void onDownloadFinished(String filePath) {
                 Log.d("TAG", "DownloadService, DownloadThread, onDownloadFinished: " + filePath);
+                sendBroadcastMsgDownloadComplete();
                 stopSelf();
             }
 
@@ -115,6 +116,12 @@ public class DownloadService extends Service {
                 notificationManager.createNotificationChannel(mChannel);
             }
         }
+    }
+
+    private void sendBroadcastMsgDownloadComplete() {
+        Intent intent = new Intent();
+        intent.setAction("net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE");
+        sendBroadcast(intent);
     }
 
     @Override
