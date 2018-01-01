@@ -1,7 +1,9 @@
 package net.alexandroid.servicepermisssionbroadcastfirststeps;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
     public static final int PERMISSIONS_REQUEST_CODE = 1;
     public static final String URL = "http://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg";
 
+    public static void startActivity(Context context, Bundle extras) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtras(extras);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setFab();
+
+        String filePath = getIntent().getStringExtra(DownloadService.FILE_PATH);
+        if (filePath != null) {
+            Log.d("TAG", "MainActivity # onCreate, filePath: " + filePath);
+        }
     }
 
     private void setFab() {

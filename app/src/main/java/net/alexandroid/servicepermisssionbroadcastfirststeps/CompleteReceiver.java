@@ -15,5 +15,7 @@ public class CompleteReceiver extends BroadcastReceiver {
 
         String filePath = intent.getStringExtra(DownloadService.FILE_PATH);
         Log.d("TAG", "CompleteReceiver # onReceive, filePath: " + filePath);
+
+        MainActivity.startActivity(context, intent.getExtras());
     }
 }
