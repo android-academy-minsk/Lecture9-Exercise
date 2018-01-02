@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkForIntentExtras() {
         String filePath = getIntent().getStringExtra(DownloadService.FILE_PATH);
         if (filePath != null) {
-            Log.d("TAG", "MainActivity # onCreate, filePath: " + filePath);
+            Log.d("TAG", "MainActivity # checkForIntentExtras, filePath: " + filePath);
             showImage(filePath);
         }
     }

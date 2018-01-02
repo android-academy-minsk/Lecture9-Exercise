@@ -120,8 +120,13 @@ public class DownloadService extends Service {
     }
 
     private void sendBroadcastMsgDownloadComplete(String filePath) {
-        Intent intent = new Intent();
-        intent.setAction("net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE");
+        Intent intent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            intent = new Intent(this, CompleteReceiver.class);
+        } else {
+            intent = new Intent();
+            intent.setAction("net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE");
+        }
         intent.putExtra(FILE_PATH, filePath);
         sendBroadcast(intent);
     }
