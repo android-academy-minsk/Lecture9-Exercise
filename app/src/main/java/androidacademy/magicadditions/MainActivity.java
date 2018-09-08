@@ -1,4 +1,4 @@
-package net.alexandroid.servicepermisssionbroadcastfirststeps;
+package androidacademy.magicadditions;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,22 +8,24 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final int PERMISSIONS_REQUEST_CODE = 1;
-    public static final String URL = "http://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg";
+    public static final String URL = "https://www.sample-videos.com/img/Sample-jpg-image-1mb.jpg";
 
     public static void startActivity(Context context, Bundle extras) {
         Intent intent = new Intent(context, MainActivity.class);
