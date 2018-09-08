@@ -1,4 +1,4 @@
-package net.alexandroid.servicepermisssionbroadcastfirststeps;
+package androidacademy.magicadditions;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -10,17 +10,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 public class DownloadService extends Service {
 
     public static final String URL = "URL";
     public static final int ONGOING_NOTIFICATION_ID = 987;
+    public static final int ERROR_NOTIFICATION_ID = 1024;
     public static final String CHANNEL_DEFAULT_IMPORTANCE = "Channel";
+
+    private NotificationManagerCompat notificationManager;
 
     public static void startService(Activity activity, String url) {
         Intent intent = new Intent(activity, DownloadService.class);
@@ -31,6 +36,7 @@ public class DownloadService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, final int startId) {
         Log.d("TAG", "DownloadService # onStartCommand");
+        notificationManager = NotificationManagerCompat.from(getApplicationContext());
         startForeground();
 
         String url = intent.getStringExtra(URL);
@@ -59,6 +65,8 @@ public class DownloadService extends Service {
             @Override
             public void onError(String error) {
                 Log.e("TAG", "DownloadService, DownloadThread, Error: " + error);
+                notificationManager.notify(ERROR_NOTIFICATION_ID, createErrorNotification());
+                notificationManager.cancel(DownloadService.ONGOING_NOTIFICATION_ID);
                 stopSelf();
             }
         }).start();
@@ -84,12 +92,17 @@ public class DownloadService extends Service {
                 .build();
     }
 
+    private Notification createErrorNotification() {
+        return new NotificationCompat.Builder(this, CHANNEL_DEFAULT_IMPORTANCE)
+                .setContentTitle(getText(R.string.notification_error_title))
+                .setContentText(getText(R.string.notification_error_message))
+                .setSmallIcon(R.drawable.ic_stat_download)
+                .build();
+    }
+
     private void updateNotification(int progress) {
         Notification notification = createNotification(progress);
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
-            notificationManager.notify(ONGOING_NOTIFICATION_ID, notification);
-        }
+        notificationManager.notify(ONGOING_NOTIFICATION_ID, notification);
     }
 
     private void createNotificationChannel() {
@@ -119,8 +132,12 @@ public class DownloadService extends Service {
     }
 
     private void sendBroadcastMsgDownloadComplete() {
-        Intent intent = new Intent();
-        intent.setAction("net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE");
+        Intent intent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            intent = new Intent(this, CompleteReceiver.class);
+        } else {
+            intent = new Intent(CompleteReceiver.ACTION_DOWNLOAD_COMPLETE);
+        }
         sendBroadcast(intent);
     }
 

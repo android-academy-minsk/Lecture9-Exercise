@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="net.alexandroid.servicepermisssionbroadcastfirststeps">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="androidacademy.magicadditions">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -11,9 +12,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
+            android:name="androidacademy.magicadditions.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,11 +25,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".DownloadService"/>
+        <service android:name="androidacademy.magicadditions.DownloadService"/>
 
-        <receiver android:name=".CompleteReceiver">
+        <receiver android:name="androidacademy.magicadditions.CompleteReceiver">
             <intent-filter>
-                <action android:name="net.alexandroid.servicepermisssionbroadcastfirststeps.DOWNLOAD_COMPLETE"/>
+                <action android:name="androidacademy.magicadditions.DOWNLOAD_COMPLETE"/>
             </intent-filter>
         </receiver>
 
