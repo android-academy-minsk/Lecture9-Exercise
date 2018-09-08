@@ -1,7 +1,6 @@
-package net.alexandroid.servicepermisssionbroadcastfirststeps;
+package androidacademy.magicadditions;
 
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
@@ -15,6 +14,10 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import androidx.annotation.NonNull;
 
 public class DownloadThread extends Thread {
 
@@ -44,12 +47,13 @@ public class DownloadThread extends Thread {
 
         try {
             URL url = new URL(mUrl);
-            connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpsURLConnection) url.openConnection();
             connection.connect();
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 mDownloadCallBack.onError("Server returned HTTP response code: "
                         + connection.getResponseCode() + " - " + connection.getResponseMessage());
+                return;
             }
             int fileLength = connection.getContentLength();
             Log.d("TAG", "File size: " + fileLength / 1024 + " KB");
