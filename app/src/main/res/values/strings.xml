@@ -9,4 +9,6 @@
     <string name="channel_name">Default channel</string>
     <string name="channel_description">It is a channel for default notifications</string>
     <string name="main_image">Main image</string>
+    <string name="notification_error_title">Error</string>
+    <string name="notification_error_message">Image can not be downloaded</string>
 </resources>
