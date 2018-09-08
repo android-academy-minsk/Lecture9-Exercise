@@ -1,4 +1,4 @@
-package net.alexandroid.servicepermisssionbroadcastfirststeps;
+package androidacademy.magicadditions;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -10,9 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 public class DownloadService extends Service {
 
